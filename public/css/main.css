@@ -1,0 +1,16 @@
+.resultTable {
+    max-height: 200px
+}
+
+iframe {
+    border:0px;
+}
+
+.toolbox label {
+    display: none;
+}
+
+#reportLink {
+    font-size:10px;
+    color: #999;
+}
