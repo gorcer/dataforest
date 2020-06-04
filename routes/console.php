@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('collector:processAll', function () {
+    \App\Http\Controllers\CollectorController::processAll();
+})->describe('Display an inspiring quote');

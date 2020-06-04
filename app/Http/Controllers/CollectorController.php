@@ -6,6 +6,8 @@ use App\Collector;
 use App\Helpers\DatabaseConnection;
 use App\Stat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use \MongoDB\BSON\UTCDateTime;
 
 class CollectorController extends Controller
 {
@@ -26,7 +28,7 @@ class CollectorController extends Controller
      */
     public function create()
     {
-        //
+        return view('collector.create');
     }
 
     /**
@@ -44,23 +46,10 @@ class CollectorController extends Controller
             return $value != '';
         });
 
-        // Убираем лишнее
-        $data = $params;
-        unset($data['email']);
-        unset($data['_token']);
-        unset($data['name']);
-        unset($data['period']);
-        $data = serialize($data);
-
-        $collector = Collector::create([
-            'user_id' => 0,
-            'email' => $params['email'],
-            'hash' => md5($params['email'] . $data),
-            'name' => $params['name'],
-            'type' => $params['type'],
-            'period' => $params['period'],
-            'data' => $data
-        ]);
+        unset($params['_token']);
+        $params['hash'] = md5(print_r($params, true));
+        $params['user_id']=Auth::id();
+        $collector = Collector::create($params);
 
         $collector->process();
 
@@ -75,8 +64,8 @@ class CollectorController extends Controller
      */
     public function show($id)
     {
-        $collector = Collector::findOrFail($id);
-        $allCollectors = Collector::get();
+        $collector = Collector::find($id);
+        $allCollectors = Collector::where('user_id', Auth::id())->get();
 
         return view('collector.show', ['mainCollector' => $collector, 'allCollectors' => $allCollectors]);
     }
@@ -89,7 +78,9 @@ class CollectorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $collector = Collector::find($id);
+        
+        return view('collector.edit', ['collector' => $collector]);
     }
 
     /**
@@ -101,7 +92,20 @@ class CollectorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $collector = Collector::find($id);
+
+        $params = $request->all();
+
+        $params = array_filter($params, function ($value) {
+            return $value != '';
+        });
+
+        unset($params['_token']);
+
+        $collector->update($params);
+
+        return redirect()->route('collector.show', ['collector'=>$collector]);
+
     }
 
     /**
@@ -110,9 +114,10 @@ class CollectorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+        Collector::destroy($id);
+        return redirect('');
     }
 
     public function test(Request $request) {
@@ -153,6 +158,8 @@ class CollectorController extends Controller
     public function process($id) {
         $collector = Collector::findOrFail($id);
         $collector->process();
+
+        return redirect()->route('collector.show',['collector' => $collector]);
     }
 
     public function frame(Request $request, $id, $type, $group) {
@@ -166,6 +173,26 @@ class CollectorController extends Controller
                             break;
         }
 
+
+    }
+
+
+    public static function processAll() {
+
+        $collectors = Collector::whereRaw([
+            '$or' => [
+                ['period' => 'hourly', 'last_check' => ['$lt' =>  new UTCDateTime(strtotime('-1 hour') * 1000)] ],
+                ['period' => 'daily', 'last_check' => ['$lt' => new UTCDateTime(strtotime('-1 day')*1000)] ],
+                ['period' => 'weekly', 'last_check' => ['$lt' => new UTCDateTime(strtotime('-1 week')*1000)] ],
+                ['period' => 'monthly', 'last_check' => ['$lt' => new UTCDateTime(strtotime('-1 month')*1000)] ],
+            ]
+            ,
+        ])->get();
+
+        foreach($collectors as $collector) {
+            $collector->process();
+            echo date('Y-m-d H:i:s') . ' - ProcessAll ' . $collector->name . PHP_EOL;
+        }
 
     }
 }

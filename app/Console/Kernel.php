@@ -26,6 +26,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+
+
+        //$collector = Collector::find('5ed462ed2f5d0a10f909d0a2');
+        //$schedule->job(new ProcessTask($collector))->everyMinute();
+
+
         $collectors = Collector::get();
         foreach($collectors as $collector) {
 

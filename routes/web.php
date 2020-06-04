@@ -25,4 +25,5 @@ Route::any('/f/{id}/{type}/{group}', 'CollectorController@frame')->name('collect
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('collector', 'CollectorController');
+Route::any('/collector/{id}/delete', 'CollectorController@delete')->name('collector.delete');
+Route::resource('collector', 'CollectorController')->middleware('auth');

@@ -14,3 +14,11 @@ iframe {
     font-size:10px;
     color: #999;
 }
+
+#copied {
+    display: inline;
+}
+
+.no-labels label {
+    display: none;
+}

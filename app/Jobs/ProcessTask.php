@@ -33,5 +33,7 @@ class ProcessTask implements ShouldQueue
     public function handle()
     {
         $this->collector->process();
+
+        echo(date('Y-m-d H:i:s') . 'Worked ' .  $this->collector->name . PHP_EOL);
     }
 }

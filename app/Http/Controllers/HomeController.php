@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Collector;
 use App\Helpers\DatabaseConnection;
+use App\Jobs\ProcessTask;
 use App\Stat;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -27,27 +29,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $c = Collector::whereId(14)->first();
+       // $collector = Collector::find('5ed462ed2f5d0a10f909d0a7');
+       // dispatch(new ProcessTask($collector));
 
-        $group = [
-            "_id" => [ '$dateToString' => [ "format" => "%Y-%m-%d", "date" => '$dt' ],
-            ],
-            "dt"    => ['$min' => '$dt'],
-        ];
-        foreach($c->getFields() as $field) {
-            $group[$field] = ['$sum' => '$'.$field];
-        }
-
-        $cursor = Stat::where('collector_id', 14)->raw()->aggregate([
-            ['$group' =>
-                $group,
-            ],
-        ]);
-
-        $result=[];
-        foreach ($cursor as $document) {
-            $result[]=$document->getArrayCopy();
-        }
+        //
 
         return view('home');
     }

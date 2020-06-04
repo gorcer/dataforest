@@ -3,7 +3,8 @@
 namespace App;
 
 use App\Helpers\DatabaseConnection;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model;
+use \MongoDB\BSON\UTCDateTime;
 
 /**
  * @property int $id
@@ -11,17 +12,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $email
  * @property string $hash
  * @property string $name
- * @property string $data
  * @property string $created_at
  * @property string $last_check
  */
 class Collector extends Model
 {
+    protected $connection = 'mongodb';
+    protected $collection = 'collector';
+
     public $_stat=null;
-    /**
-     * @var array
-     */
-    protected $fillable = ['user_id', 'email', 'hash', 'name', 'data', 'created_at', 'last_check', 'type', 'period'];
+    protected $guarded = [];
+
+
     const UPDATED_AT = null;
 
     public static function getData($params) {
@@ -29,19 +31,19 @@ class Collector extends Model
         switch($params['type']) {
             case 'sql':
 
-
-                    $params['connection'] = [
+                    // ssh -N -L 3336:127.0.0.1:3306 doghouse-new
+                    $connection = [
                         'driver' => 'mysql',
-                        'host' => '127.0.0.1',
-                        'port' => '3306',
+                        'host' => '127.0.0.1:3336',
+                        'port' => '3336',
                         'database' => $params['sql_dbname'],
-                        'username' => 'admin',
-                        'password' => 'admin',
+                        'username' => 'gorcer',
+                        'password' => 'licomy46642',
                     ];
 
 
                         try {
-                            $connection = DatabaseConnection::setConnection($params['connection']);
+                            $connection = DatabaseConnection::setConnection($connection);
                             $stats = $connection->select($params['sql_query']);
                         } catch(\Illuminate\Database\QueryException $e) {
                             return $e->getMessage();
@@ -72,6 +74,7 @@ class Collector extends Model
                                 $dom->loadHTML($response);
                                 $xpath = new \DOMXPath($dom);
                                 $nodes = $xpath->query($params['http_xpath']);
+
                                 if (sizeof($nodes) == 0) {
                                     return 'Your query result is empty, try to change selector.';
                                 }
@@ -108,15 +111,37 @@ class Collector extends Model
         return $result;
     }
 
+    // Обновляем стуктуру
+    public function migrate() {
+        if (is_string($this->data)) {
+            $data = unserialize($this->data);
+            $this->data = $data;
+            $this->save();
+        }
+
+        if (isset($this->data) && $this->data != null) {
+            foreach($this->data as $k=>$v) {
+                $this->$k=$v;
+            }
+            $this->data=null;
+            $this->save();
+        }
+
+
+
+        if (isset($this->attributes['connection']))
+            $this->attributes['connection']=null;
+    }
+
     public function process() {
 
-        $data = unserialize($this->data);
+        $this->migrate();
 
         // Получаем данные из вне
-        $stats = self::getData($data);
+        $stats = self::getData($this);
 
-        if (is_string($stats))
-            return $stats;
+        if (!is_array($stats))
+            echo $stats;
 
         foreach($stats as $item) {
 
@@ -146,24 +171,22 @@ class Collector extends Model
 
 
             // Если нет даты, то добавляем
-            if (isset($item['dt']))
-                $dt = $item['dt'];
-            else {
+            if (!isset($item['dt'])) {
                 $dt=date('Y-m-d H:i:s');
                 $item['dt'] = $dt;
             }
-            $item['dt'] = new \MongoDB\BSON\UTCDateTime(strtotime($item['dt'])*1000);
+            $item['dt'] = new UTCDateTime(strtotime($item['dt'])*1000);
 
 
             $item['collector_id']= $this->id;
 
-            Stat::where(['collector_id'=>$this->id, 'dt'=>$dt])
+            Stat::where(['collector_id'=>$this->id, 'dt'=>$item['dt']])
                 ->update($item, ['upsert' => true]);
 
          }
 
 
-        $this->last_check = date('Y-m-d H:i:s');
+        $this->last_check = new UTCDateTime();
         $this->save();
 
     }
@@ -176,11 +199,49 @@ class Collector extends Model
 
         $format = "%Y-%m-%d";
         switch($group) {
+            case 'by_hours': $format = "%Y-%m-%d %H"; break;
             case 'by_day': $format = "%Y-%m-%d"; break;
             case 'by_weeks': $format = "%Y / %V"; break;
             case 'by_month': $format = "%Y-%m"; break;
             case 'by_year': $format = "%Y"; break;
         }
+
+
+        $start = request()->get('start', date('Y-m-d', strtotime('-7 days')));
+        $end = request()->get('end', date('Y-m-d'));
+
+
+
+        switch(request()->get('period', '7_days')) {
+            case 'today':
+                         $start = date('Y-m-d 00:00:00');
+                         $end = date('Y-m-d 00:00:00', strtotime("+1 day"));
+                         break;
+            case 'yesteraday':
+                        $start = date('Y-m-d 00:00:00', strtotime("-1 day"));
+                        $end = date('Y-m-d 00:00:00');
+                        break;
+            case '7_days':
+                        $start = date('Y-m-d 00:00:00', strtotime("-7 day"));
+                        $end = date('Y-m-d 00:00:00', strtotime("+1 day"));
+                        break;
+            case '30_days':
+                        $start = date('Y-m-d 00:00:00', strtotime("-30 day"));
+                        $end = date('Y-m-d 00:00:00', strtotime("+1 day"));
+                        break;
+            case 'this_month':
+                        $start = date('Y-m-01 00:00:00', strtotime("-30 day"));
+                        $end = date('Y-m-d 00:00:00', strtotime("+1 day"));
+                        break;
+            case 'last_month':
+                        $start = date('Y-m-01 00:00:00', strtotime("-1 month"));
+                        $end = date('Y-m-1 00:00:00');
+                        break;
+
+        }
+        $start = new UTCDateTime(strtotime($start)*1000);
+        $end = new UTCDateTime(strtotime($end)*1000);
+
 
         if ($this->_stat == null) {
 
@@ -189,23 +250,40 @@ class Collector extends Model
                 return [];
 
 
+
             $group = [
                 "_id" => [ '$dateToString' => [ "format" => $format, "date" => '$dt' ],
                 ],
                 "dt"    => ['$min' => '$dt'],
             ];
             foreach($fields as $field) {
-                $group[$field] = ['$avg' => '$'.$field];
+
+                if (isset($this->aggregate) && isset($this->aggregate[$field])) {
+                    $group[$field] = ['$' . $this->aggregate[$field] => '$'.$field];
+                } else {
+                    $group[$field] = ['$avg' => '$'.$field];
+                }
+
+
             }
 
             $cursor = Stat::raw()->aggregate([
                 [
                     '$match' => [
-                        'collector_id' => $this->id
+                        'collector_id' => $this->id,
+                        'dt' => [
+                            '$gt' => $start,
+                            '$lt' => $end
+                        ]
                     ]
                 ],
                 ['$group' =>
                     $group,
+                ],
+                [
+                    '$sort' => [
+                        'dt' => -1
+                    ]
                 ]
 
             ]);
@@ -215,15 +293,25 @@ class Collector extends Model
             foreach ($cursor as $document) {
                 $item=$document->getArrayCopy();
                // $item['dt'] = $item['_id'];
-                $item['dt'] = $item['dt']->toDateTime()->format('Y-m-d');
+                $item['dt'] = $item['dt']->toDateTime()->setTimezone(new \DateTimeZone('Asia/Vladivostok'))->format('Y-m-d H');
+/*
+                $dateTime = new \DateTime();
+                $dateTime->setTimestamp($item['dt']);
+                $item['dt'] = $dateTime->format('Y-m-d H');
+*/
                 unset($item['_id']);
                 $result[]=$item;
+
             }
+
+
         }
 
            // $this->_stat = Stat::where('collector_id', $this->id)->orderBy('dt', 'desc')->get();
 
         return $result;
     }
+
+
 
 }
