@@ -32,6 +32,7 @@ class Collector extends Model
             case 'sql':
 
                     // ssh -N -L 3336:127.0.0.1:3306 doghouse-new
+                   // ssh -N -L 27018:127.0.0.1:27017 doghouse-new
                     $connection = [
                         'driver' => 'mysql',
                         'host' => '127.0.0.1:3336',
