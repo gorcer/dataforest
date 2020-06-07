@@ -36,7 +36,7 @@ $('#tryIt').click(function(e) {
 
     $('#collectorForm .result').hide();
     $.ajax({
-        url: '/collector/test',
+        url: testUrl,
         type: 'POST',
         dataType: 'json',
         data: formData,
@@ -125,7 +125,7 @@ $('#grouping, #period').change(function(){
 });
 
 // init datepicker
-$('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+//$('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 
 
 function changeDatePicker(startIn, endIn) {

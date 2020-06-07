@@ -5,7 +5,9 @@
 @section('content')
 
 <div class="container">
-
+<script>
+    var testUrl="{{route('collector.test')}}";
+</script>
     <h1>Time to create new collector!</h1>
 
     {!!Form::open()->id('collectorForm')->route('collector.store')!!}
