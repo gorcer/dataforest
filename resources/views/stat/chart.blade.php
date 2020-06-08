@@ -153,6 +153,7 @@ $style[]=$height;
                 '30_days' => 'Last 30 Days',
                 'this_month' => 'This Month',
                 'last_month' => 'Last Month',
+                'this_year' => 'This Year'
                 ], (request()->group?request()->period:'7_days')
                 )->id('period') !!}
 

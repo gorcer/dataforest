@@ -23,19 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="web.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/web.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="79" selection-start="575" selection-end="589" vertical-scroll-proportion="-7.2916665" vertical-offset="140" max-vertical-offset="510">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Collector.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Collector.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="51" selection-start="896" selection-end="896" vertical-scroll-proportion="0.6094987" vertical-offset="294" max-vertical-offset="4815">
+            <state line="240" column="56" selection-start="7798" selection-end="7798" vertical-scroll-proportion="0.72295517" vertical-offset="3296" max-vertical-offset="4875">
               <folding />
             </state>
           </provider>
@@ -81,6 +72,15 @@
         <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/Carbon.php">
           <provider selected="true" editor-type-id="text-editor">
             <state line="6" column="25" selection-start="97" selection-end="97" vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="240">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chart.blade.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/stat/chart.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="155" column="26" selection-start="4020" selection-end="4029" vertical-scroll-proportion="-9.75" vertical-offset="2091" max-vertical-offset="3375">
               <folding />
             </state>
           </provider>
@@ -158,11 +158,11 @@
         <option value="$PROJECT_DIR$/resources/views/collector/show.blade.php" />
         <option value="$PROJECT_DIR$/routes/console.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/CollectorController.php" />
-        <option value="$PROJECT_DIR$/resources/views/stat/chart.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/collector/create.blade.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/public/js/main.js" />
         <option value="$PROJECT_DIR$/resources/views/collector/edit.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/stat/chart.blade.php" />
         <option value="$PROJECT_DIR$/app/Collector.php" />
       </list>
     </option>
@@ -226,7 +226,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -240,11 +244,51 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
+              <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Http" />
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datalogger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datalogger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="collector" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datalogger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datalogger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -315,7 +359,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22620791" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22620791" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -540,39 +584,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/stat/chart.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="0" selection-start="908" selection-end="908" vertical-scroll-proportion="0.0" vertical-offset="786" max-vertical-offset="3360">
-          <folding>
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="{&quot;label&quot;: '{{$f}}'...}" />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="{&quot;type&quot;: 'line'...}" />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1591243783861" expanded="false" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/nesbot/carbon/src/Carbon/Traits/Creator.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="79" column="31" selection-start="2127" selection-end="2136" vertical-scroll-proportion="-3.254902" vertical-offset="764" max-vertical-offset="13395">
@@ -673,9 +684,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/stat/chart.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="155" column="26" selection-start="4020" selection-end="4029" vertical-scroll-proportion="-9.75" vertical-offset="2091" max-vertical-offset="3375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Collector.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="51" selection-start="896" selection-end="896" vertical-scroll-proportion="0.6094987" vertical-offset="294" max-vertical-offset="4815">
+        <state line="240" column="56" selection-start="7798" selection-end="7798" vertical-scroll-proportion="0.72295517" vertical-offset="3296" max-vertical-offset="4875">
           <folding />
         </state>
       </provider>

@@ -237,6 +237,10 @@ class Collector extends Model
                         $start = date('Y-m-01 00:00:00', strtotime("-1 month"));
                         $end = date('Y-m-1 00:00:00');
                         break;
+            case 'this_year':
+                        $start = date('Y-01-01 00:00:00');
+                        $end = date('Y-m-d 00:00:00', strtotime("+1 day"));
+                        break;
 
         }
         $start = new UTCDateTime(strtotime($start)*1000);
