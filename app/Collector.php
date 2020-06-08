@@ -35,8 +35,7 @@ class Collector extends Model
                    // ssh -N -L 27018:127.0.0.1:27017 doghouse-new
                     $connection = [
                         'driver' => 'mysql',
-                        'host' => '127.0.0.1:3336',
-                        'port' => '3336',
+                        'host' => '127.0.0.1:3306',
                         'database' => $params['sql_dbname'],
                         'username' => 'gorcer',
                         'password' => 'licomy46642',

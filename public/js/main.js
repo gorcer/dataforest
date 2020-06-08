@@ -137,7 +137,7 @@ function changeDatePicker(startIn, endIn) {
 
     window.location = link;
 }
-
+/*
 $('#reportrange').daterangepicker({
 }, changeDatePicker);
-
+*/

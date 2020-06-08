@@ -9,7 +9,9 @@ $fields = $collector->getFields();
 @endphp
 
 <div class="container">
-
+    <script>
+        var testUrl="{{route('collector.test')}}";
+    </script>
 
     <h1>{{$collector->name}}</h1>
 
