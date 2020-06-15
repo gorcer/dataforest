@@ -24,7 +24,7 @@
             </div>
 
 
-            @if (sizeof($mainCollector->getStat()) == 0)
+            @if ($mainCollector->statCount() == 0)
                 <div class="warn">
                     Данные ожидают загрузки, зайдите попозже.
                 </div>
@@ -60,10 +60,14 @@
                       </div>
 
                       <div class="tab-pane" id="value">
-                          @if (sizeof($lastValue)>1)
-                            @include('table', ['data' => [ $lastValue ]])
+                          @if($lastValue)
+                              @if (sizeof($lastValue)>1)
+                                @include('table', ['data' => [ $lastValue ]])
+                              @else
+                                <h1>{{$lastValue['value']}}</h1>
+                              @endif
                           @else
-                            <h1>{{$lastValue['value']}}</h1>
+                            <h1>No data</h1>
                           @endif
                       </div>
 
@@ -75,7 +79,11 @@
                       </div>
 
                       <div class="tab-pane  overflow-auto resultTable" id='table'>
-                            @include('table', ['data' => $stat])
+                            @if($stat)
+                                @include('table', ['data' => $stat])
+                            @else
+                                No data
+                            @endif
                       </div>
                   </div>
 

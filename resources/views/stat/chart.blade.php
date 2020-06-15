@@ -209,9 +209,8 @@ $style[]=$height;
 
 
 
+   <canvas id="myChart" style="{{join(';', $style)}}" ></canvas>
 
-
-    <canvas id="myChart" style="{{join(';', $style)}}" ></canvas>
 
 
 

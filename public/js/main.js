@@ -84,8 +84,8 @@ $('#copy2clipboard').click(function(){
 refreshGraph = function() {
     myChart.data.datasets=[];
     $('#selectField').val().forEach(function(elem){
-
-        myChart.data.datasets.push(dataset[elem]);
+        if (dataset[elem])
+            myChart.data.datasets.push(dataset[elem]);
     });
     myChart.update();
     refreshLink();

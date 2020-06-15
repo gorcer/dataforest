@@ -316,6 +316,10 @@ class Collector extends Model
         return $result;
     }
 
+    public function statCount() {
+        return Stat::where('collector_id', $this->id)->count();
+    }
+
 
 
 }
