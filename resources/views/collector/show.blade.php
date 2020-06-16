@@ -4,10 +4,10 @@
 
 <div class="container">
     <div class="justify-content-center row">
-        <div class="col-md-2 d-flex flex-column">
+        <div class="col-md-2 d-flex flex-column sidebar">
             @foreach($allCollectors as $collector)
 
-                        <a href="{{route('collector.show', ['collector' => $collector])}}">
+                        <a class="pt-2" href="{{route('collector.show', ['collector' => $collector])}}">
                             {{$collector->name}}
                         </a>
 
@@ -15,6 +15,7 @@
 
             <a href="{{route('collector.create')}}" class="mt-3 btn btn-secondary">new</a>
         </div>
+
         <div class="col-md-10">
 
             <h1>{{$mainCollector->name}}</h1>

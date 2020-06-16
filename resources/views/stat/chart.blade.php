@@ -55,6 +55,7 @@ $height = 'height:'.$height.'';
 $style[]=$height;
 }
 
+
 @endphp
 
 @section('footer')
@@ -154,7 +155,7 @@ $style[]=$height;
                 'this_month' => 'This Month',
                 'last_month' => 'Last Month',
                 'this_year' => 'This Year'
-                ], (request()->group?request()->period:'7_days')
+                ], (request()->period?request()->period:'7_days')
                 )->id('period') !!}
 
             </div>

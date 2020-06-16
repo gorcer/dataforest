@@ -13,7 +13,7 @@
     {!!Form::open()->id('collectorForm')->route('collector.store')!!}
 
 
-    {!!Form::text('name', 'Название')!!}
+    {!!Form::text('name', 'Name')!!}
 
     {!!Form::select('period', 'collect period',
     ['hourly' => 'Hourly',
@@ -23,8 +23,8 @@
     ]
     ) !!}
 
-    {!!Form::select('type', 'Вид сборщика',
-        [0 => 'Выберите сборщика',
+    {!!Form::select('type', 'Collector type',
+        [0 => 'Change collector type',
         'http' => 'Запрос к сайту',
         'sql' => 'SQL-запрос']
     ) !!}

@@ -29,11 +29,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-       // $collector = Collector::find('5ed462ed2f5d0a10f909d0a7');
-       // dispatch(new ProcessTask($collector));
 
-        //
+        $collectors = Collector::where('user_id',Auth::id())->get();
 
-        return view('home');
+
+        return view('home', ['collectors' => $collectors]);
     }
 }

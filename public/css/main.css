@@ -22,3 +22,7 @@ iframe {
 .no-labels label {
     display: none;
 }
+
+.sidebar {
+    line-height: 18px;
+}
