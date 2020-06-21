@@ -73,6 +73,7 @@ class Collector extends Model
                                 $dom = new \DOMDocument();
                                 $dom->loadHTML($response);
                                 $xpath = new \DOMXPath($dom);
+
                                 $nodes = $xpath->query($params['http_xpath']);
 
                                 if (sizeof($nodes) == 0) {
@@ -81,12 +82,15 @@ class Collector extends Model
                                 $node = $nodes[0];
 
                                 //$stats = [['value' => (int)str_replace(' ','',$nodes[0]->nodeValue)]];
-                                $stats = [['value' => $node->nodeValue]];
+                                $stats = [
+                                    [
+                                        'value' => $node->nodeValue
+                                    ]
+                                ];
                             }
                             catch(\ErrorException $e) {
                                     return $e->getMessage();
                                 }
-
 
                          break;
         }
@@ -145,8 +149,6 @@ class Collector extends Model
 
         foreach($stats as $item) {
 
-
-
                 foreach($item as $key => &$value) {
                     // все кроме даты делаем числом
                     if ($key !== 'dt')
@@ -166,7 +168,6 @@ class Collector extends Model
                         unset($item[$key]);
                         $item['value'] = $value;
                     }
-
                 }
 
 
@@ -182,9 +183,7 @@ class Collector extends Model
 
             Stat::where(['collector_id'=>$this->id, 'dt'=>$item['dt']])
                 ->update($item, ['upsert' => true]);
-
          }
-
 
         $this->last_check = new UTCDateTime();
         $this->save();

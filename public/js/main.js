@@ -24,8 +24,44 @@ chartPallete = [
 $('#inp-type').on('change', function (e) {
     $('.tab-content .tab-pane').hide();
     $('.tab-content .tab-pane#'+$(this).val()).show();
+
+     if ($(this).val() == 'http' && $('#http_xpath').val() == '') {
+        $('#tryIt').prop('disabled', true);
+     }
 });
 
+$('#findXPath').click(function(e) {
+
+    var formData = $('#collectorForm').serialize();
+
+    $('#findXPath').hide();
+    $('#findXPath-loading').removeClass('d-none');
+    $('#findXPath-loading').show();
+
+    $.ajax({
+        url: findXPathUrl,
+        type: 'POST',
+        dataType: 'json',
+        data: formData,
+        success: function (data) {
+
+            if (data.status == 'ok') {
+                $('#http_xpath').val(data.value);
+                $('#tryIt').prop('disabled', false);
+                $('#http_xpath').removeClass('alert alert-danger');
+
+            } else {
+                $('#tryIt').prop('disabled', true);
+                $('#http_xpath').val(data.value);
+                $('#http_xpath').addClass('alert alert-danger');
+
+            }
+        }
+    }).always(function( data ){
+        $('#findXPath-loading').hide();
+        $('#findXPath').show();
+    });
+});
 
 $('#tryIt').click(function(e) {
     var formData = $('#collectorForm').serialize();
@@ -63,7 +99,7 @@ $('#tryIt').click(function(e) {
     }).always(function( data ){
         $('#tryIt-loading').hide();
         $('#tryIt').show();
-    });;
+    });
 });
 
 $('#copy2clipboard').click(function(){

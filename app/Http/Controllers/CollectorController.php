@@ -120,6 +120,53 @@ class CollectorController extends Controller
         return redirect('');
     }
 
+    public function findXPath(Request $request) {
+        $params = $request->all();
+
+        try {
+            $arrContextOptions=array(
+                "ssl"=>array(
+                    "verify_peer"=>false,
+                    "verify_peer_name"=>false,
+                ),
+                "http" => [
+                    "user_agent" => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0'
+                ]
+            );
+            $response = file_get_contents($params['http_url'], false, stream_context_create($arrContextOptions));
+
+            libxml_use_internal_errors(true);
+            $dom = new \DOMDocument();
+            $dom->loadHTML($response);
+            $xpath = new \DOMXPath($dom);
+
+            $nodes = $xpath->query("//*[text()[contains(., '".$params['http_value']."')]]");
+
+            if (sizeof($nodes) == 0 ) {
+                return [
+                    'status' => 'error',
+                    'value' => 'Element not found'
+                ];
+            }
+
+            $path = $nodes[0]->getNodePath();
+
+            return [
+                'status' => 'ok',
+                'value' => $path
+            ];
+        }
+        catch(\ErrorException $e) {
+            return [
+                'status' => 'error',
+                'value' => $e->getMessage()
+            ];
+
+        }
+
+
+    }
+
     public function test(Request $request) {
 
         $params = $request->all();

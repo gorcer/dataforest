@@ -11,6 +11,7 @@ $fields = $collector->getFields();
 <div class="container">
     <script>
         var testUrl="{{route('collector.test')}}";
+        var findXPathUrl="{{route('collector.findXPath')}}";
     </script>
 
     <h1>{{$collector->name}}</h1>
@@ -37,7 +38,29 @@ $fields = $collector->getFields();
         @case('http')
             <div id="http">
                 {!!Form::text('http_url', 'Адрес страницы', $collector->http_url)!!}
-                {!!Form::text('http_xpath', 'XPath', $collector->http_xpath)!!}
+                {!!Form::text('http_value', 'Текущее значение на странице')!!}
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <label for="inp-http_xpath" class="">Путь</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button id="findXPath" class="btn btn-outline-secondary" type="button">Find</button>
+
+                                <div class="d-none" id="findXPath-loading">
+
+                                    <button class="btn btn-secondary" type="button" disabled>
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="text" id="http_xpath" name="http_xpath" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1" value="{{$collector->http_xpath}}">
+                        </div>
+
+                    </div>
+                </div>
             </div>
         @break
 
@@ -56,7 +79,7 @@ $fields = $collector->getFields();
 
         <button class="btn btn-primary" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Загрузка...
+            Loading...
         </button>
     </div>
 

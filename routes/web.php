@@ -20,6 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::any('/collector/test', 'CollectorController@test')->name('collector.test');
+Route::any('/collector/findXPath', 'CollectorController@findXPath')->name('collector.findXPath');
 Route::any('/collector/process/{id}', 'CollectorController@process')->name('collector.process');
 Route::any('/f/{id}/{type}/{group}', 'CollectorController@frame')->name('collector.frame');
 
