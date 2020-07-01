@@ -240,10 +240,10 @@ class Collector extends Model
             case 'by_month': $format = "%Y-%m"; break;
             case 'by_year': $format = "%Y"; break;
         }
-
-
-        $start = request()->get('start', date('Y-m-d', strtotime('-7 days')));
-        $end = request()->get('end', date('Y-m-d'));
+        // Для вывода на график
+        $outputFormat=str_replace('%', '', $format);
+        if ($group == 'by_weeks')
+            $outputFormat='Y-m-d';
 
 
 
@@ -278,17 +278,19 @@ class Collector extends Model
                         break;
 
         }
-        $start = new UTCDateTime(strtotime($start)*1000);
-        $end = new UTCDateTime(strtotime($end)*1000);
 
+        // Обрезаем таймзону
+        $start = strtotime($start . ' ' . 'GMT+00:00');
+        $end = strtotime($end . ' ' . 'GMT+00:00');
+
+        $start = new UTCDateTime($start*1000);
+        $end = new UTCDateTime($end*1000);
 
         if ($this->_stat == null) {
 
             $fields = $this->getFields();
             if (sizeof($fields) == 0)
                 return [];
-
-
 
             $group = [
                 "_id" => [ '$dateToString' => [ "format" => $format, "date" => '$dt' ],
@@ -329,10 +331,12 @@ class Collector extends Model
 
             $result=[];
 
+
             foreach ($cursor as $document) {
                 $item=$document->getArrayCopy();
+
                // $item['dt'] = $item['_id'];
-                $item['dt'] = $item['dt']->toDateTime()->setTimezone(new \DateTimeZone('Asia/Vladivostok'))->format('Y-m-d H');
+                $item['dt'] = $item['dt']->toDateTime()->format($outputFormat);
 /*
                 $dateTime = new \DateTime();
                 $dateTime->setTimestamp($item['dt']);

@@ -10,19 +10,19 @@ $dataset=[];
 
 // Формируем датасеты для графика
 foreach(array_reverse($stat) as $items) {
-$labels[]='"'.$items['dt'].'"';
+    $labels[]='"'.$items['dt'].'"';
 
-// Оставляем только поля со значениями
-foreach($items as $f => $v) {
+    // Оставляем только поля со значениями
+    foreach($items as $f => $v) {
 
-if ($f == 'dt') continue;
+    if ($f == 'dt') continue;
 
-if (is_array($v)) {
-     $dataset[$f][]='';
-    } else {
-     $dataset[$f][]=$v;
-    }
-    }
+    if (is_array($v)) {
+         $dataset[$f][]='';
+        } else {
+         $dataset[$f][]=$v;
+        }
+        }
 }
 
 
@@ -83,17 +83,16 @@ $style[]=$height;
 --}}
         $(document).ready(function(){
 
-
             @foreach($dataset as $f=>$set)
-            var color =  chartPallete.shift();
-            dataset['{{$f}}'] = {
-                label: '{{$f}}',
-                data: [{{join(',', $set)}}],
-            backgroundColor: color,
-                borderColor: color,
-                fill: false
-        } ;
-        @endforeach
+                var color =  chartPallete.shift();
+                dataset['{{$f}}'] = {
+                    label: '{{$f}}',
+                    data: [{{join(',', $set)}}],
+                    backgroundColor: color,
+                        borderColor: color,
+                        fill: false
+                } ;
+            @endforeach
 
 
 
