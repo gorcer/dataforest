@@ -145,7 +145,7 @@ class Collector extends Model
 
         if (isset($this->attributes['sql_query'])) {
             $this->db_query = $this->sql_query;
-         //   $this->attributes['sql_query']=null;
+            $this->attributes['sql_query']=null;
         }
 
 
