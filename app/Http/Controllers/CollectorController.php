@@ -194,6 +194,21 @@ class CollectorController extends Controller
 
         }
 
+        // Если нет записей
+        if (sizeof($data) == 0) {
+
+            $first = reset($data);
+            if (!isset($first['dt'])) {
+                return
+                    [   'status' => 'problem',
+                        'data' => '',
+                        'problem' => 'Result is empty'
+                    ];
+            }
+
+        }
+
+
 
 
         return [

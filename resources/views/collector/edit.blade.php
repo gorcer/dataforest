@@ -66,8 +66,8 @@ $fields = $collector->getFields();
 
         @case('sql')
             <div id="sql">
-                {!!Form::text('db_connection', 'Database')->placeholder('mysql://user:password@server:port/database')!!}
-                {!!Form::textarea('db_query', 'Query')->attrs(['rows' => 10, 'cols' => 30])!!}
+                {!!Form::text('db_connection', 'Database',  $collector->db_connection)->placeholder('mysql://user:password@server:port/database')!!}
+                {!!Form::textarea('db_query', 'Query', $collector->db_query)->attrs(['rows' => 10, 'cols' => 30])!!}
             </div>
         @break
 
