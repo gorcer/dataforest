@@ -79,6 +79,7 @@ class CollectorController extends Controller
     public function edit($id)
     {
         $collector = Collector::find($id);
+        $collector->migrate();
         
         return view('collector.edit', ['collector' => $collector]);
     }

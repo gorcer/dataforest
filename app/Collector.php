@@ -124,7 +124,6 @@ class Collector extends Model
         if (is_string($this->data)) {
             $data = unserialize($this->data);
             $this->data = $data;
-            $this->save();
         }
 
         if (isset($this->data) && $this->data != null) {
@@ -132,7 +131,6 @@ class Collector extends Model
                 $this->$k=$v;
             }
             $this->data=null;
-            $this->save();
         }
 
 
@@ -147,6 +145,8 @@ class Collector extends Model
             $this->db_query = $this->sql_query;
             $this->attributes['sql_query']=null;
         }
+
+        $this->save();
 
 
     }
