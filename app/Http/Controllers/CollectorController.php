@@ -219,8 +219,6 @@ class CollectorController extends Controller
                             return view('stat.chart', ['collector' => $collector, 'stat' => $stat]);
                             break;
         }
-
-
     }
 
 

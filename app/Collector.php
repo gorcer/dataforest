@@ -33,18 +33,22 @@ class Collector extends Model
 
                    // ssh -N -L 3336:127.0.0.1:3306 doghouse-new
                    // ssh -N -L 27018:127.0.0.1:27017 doghouse-new
+
+
+                $connection = parse_url($params['db_connection']);
+
                     $connection = [
-                        'driver' => 'mysql',
-                        'host' => '127.0.0.1:3306',
-                        'database' => $params['sql_dbname'],
-                        'username' => 'gorcer',
-                        'password' => 'licomy46642',
+                        'driver' => $connection['scheme'],
+                        'host' => $connection['host'] . ':' . $connection['port'],
+                        'database' => substr($connection['path'], 1),
+                        'username' => $connection['user'],
+                        'password' =>  $connection['pass'],
                     ];
 
 
                         try {
                             $connection = DatabaseConnection::setConnection($connection);
-                            $stats = $connection->select($params['sql_query']);
+                            $stats = $connection->select($params['db_query']);
                         } catch(\Illuminate\Database\QueryException $e) {
                             return $e->getMessage();
                         }
@@ -135,6 +139,16 @@ class Collector extends Model
 
         if (isset($this->attributes['connection']))
             $this->attributes['connection']=null;
+
+        if (isset($this->attributes['sql_dbname']))
+            $this->attributes['sql_dbname']=null;
+
+        if (isset($this->attributes['sql_query'])) {
+            $this->db_query = $this->sql_query;
+         //   $this->attributes['sql_query']=null;
+        }
+
+
     }
 
     public function process() {
@@ -176,7 +190,29 @@ class Collector extends Model
                 $dt=date('Y-m-d H:i:s');
                 $item['dt'] = $dt;
             }
-            $item['dt'] = new UTCDateTime(strtotime($item['dt'])*1000);
+
+
+            //Приводим дату к формату
+            switch($this->period) {
+                case 'hourly':
+                    $item['dt'] = date('Y-m-d H:00:00', strtotime($item['dt']));
+                    break;
+                case 'daily':
+                    $item['dt'] = date('Y-m-d 00:00:00', strtotime($item['dt']));
+                    break;
+                case 'weekly':
+                        $item['dt'] = date('Y-m-d 00:00:00', strtotime('last monday', strtotime($item['dt'])));
+                    break;
+                case 'monthly':
+                    $item['dt'] = date('Y-m-01 00:00:00', strtotime($item['dt']));
+                    break;
+            }
+
+
+            // Обрезаем таймзону
+            $item['dt'] = strtotime($item['dt'] . ' ' . 'GMT+00:00');
+
+            $item['dt'] = new UTCDateTime($item['dt']*1000);
 
 
             $item['collector_id']= $this->id;

@@ -22,7 +22,8 @@
     'daily' => 'Daily',
     'weekly' => 'Every monday',
     'monthly' => 'Monthly'
-    ]
+    ],
+    'daily'
     ) !!}
 
     {!!Form::select('type', 'Collector type',
@@ -36,13 +37,13 @@
 
 
         <div class="tab-pane" id="http">
-            {!!Form::text('http_url', 'Адрес страницы')!!}
-            {!!Form::text('http_value', 'Текущее значение на странице')!!}
+            {!!Form::text('http_url', 'Page URL')!!}
+            {!!Form::text('http_value', 'Current value on a page')!!}
 
             <div class="row">
                 <div class="col-md-12">
 
-                    <label for="inp-http_xpath" class="">Путь</label>
+                    <label for="inp-http_xpath" class="">Path</label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <button id="findXPath" class="btn btn-outline-secondary" type="button">Find</button>
@@ -66,8 +67,8 @@
 
         <div class="tab-pane" id="sql">
 
-            {!!Form::text('sql_dbname', 'База данных')!!}
-            {!!Form::textarea('sql_query', 'Запрос')->attrs(['rows' => 10, 'cols' => 30])!!}
+            {!!Form::text('db_connection', 'Database')->placeholder('mysql://user:password@server:port/database')!!}
+            {!!Form::textarea('db_query', 'Query')->attrs(['rows' => 10, 'cols' => 30])!!}
 
         </div>
 
@@ -82,7 +83,7 @@
         </div>
 
         <div class="result d-none mt-5">
-            <h3>Результат:</h3>
+            <h3>Result:</h3>
 
             <div class="problem text-danger">
 

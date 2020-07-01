@@ -27,6 +27,8 @@ $('#inp-type').on('change', function (e) {
 
      if ($(this).val() == 'http' && $('#http_xpath').val() == '') {
         $('#tryIt').prop('disabled', true);
+     } else {
+         $('#tryIt').prop('disabled', false);
      }
 });
 
