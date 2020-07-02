@@ -4,7 +4,7 @@
 
 @php
 
-$fields = $collector->getFields();
+$fields = $collector->getFields(true);
 
 @endphp
 
@@ -73,6 +73,52 @@ $fields = $collector->getFields();
 
     @endswitch
 
+    <div class="row mb-5">
+        <div class="col">
+
+            <h4>Calculated Fields</h4>
+            <div class="calculatedFields">
+                @if (isset($collector->calculated) )
+                @foreach($collector->calculated as $name => $field)
+                    <div class="form-row mb-3">
+                        <div class="col-2">
+                            <input type="text" name="calcFieldName[{{$name}}]" value="{{$name}}" placeholder="field name" class="form-control"/>
+                        </div>
+                        <div class="col-2">
+                            <input type="text" name="calcFieldVal[{{$name}}]"  value="{{$field}}" placeholder="formula, fieldN + fieldM ..." class="form-control"/>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-danger delete" type="button">Delete</button>
+                        </div>
+                    </div>
+                @endforeach
+                @endif
+            </div>
+
+            <script id="exampleCalcField"  type="text/template">
+                <div class="form-row mb-3">
+                    <div class="col-2">
+                        <input type="text" name="calcFieldName[]" placeholder="field name" class="form-control"/>
+                    </div>
+                    <div class="col-2">
+                        <input type="text" name="calcFieldVal[]" placeholder="formula, fieldN + fieldM ..." class="form-control"/>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-danger delete" type="button">Delete</button>
+                    </div>
+                </div>
+
+            </script>
+
+            <button class="btn btn-success" aria-label="Left Align" id="addCalcField" type="button">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                Add new calculated field
+            </button>
+
+        </div>
+    </div>
+
+
     {!!Form::button("Try it")->color("primary")->attrs(['id'=>'tryIt'])!!}
 
     <div class="d-none" id="tryIt-loading">
@@ -96,26 +142,32 @@ $fields = $collector->getFields();
 
     </div>
 
-    @if(sizeof($fields) > 0)
-        <div class='mt-5'>
-            <h2>Fields</h2>
-            @foreach($fields as $field)
-                <div class="row no-labels">
-                    <div class='mr-4 col-2'>{{$field}}</div>
-                    <div>
-                        {!!Form::select('aggregate['.$field.']', null,
-                        ['avg' => 'Average',
-                        'sum' => 'Sum',
-                        'min' => 'Min',
-                        'max' => 'Max'
-                        ],
-                        (($collector->aggregate && isset($collector->aggregate[$field]))?$collector->aggregate[$field]:false)
-                        ) !!}
+    <div class="row">
+        @if(sizeof($fields) > 0)
+            <div class='mt-5 col-6'>
+                <h2>Fields</h2>
+                @foreach($fields as $field)
+                    <div class="row no-labels">
+                        <div class='col-4'>{{$field}}</div>
+                        <div class="col-4">
+                            {!!Form::select('aggregate['.$field.']', null,
+                            ['avg' => 'Average',
+                            'sum' => 'Sum',
+                            'min' => 'Min',
+                            'max' => 'Max',
+                            'hide' => 'Hidden',
+                            ],
+                            (($collector->aggregate && isset($collector->aggregate[$field]))?$collector->aggregate[$field]:false)
+                            ) !!}
+                        </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-    @endif
+                @endforeach
+            </div>
+        @endif
+
+
+
+    </div>
 
     <div class="row mt-5">
 

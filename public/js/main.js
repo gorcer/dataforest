@@ -179,3 +179,22 @@ function changeDatePicker(startIn, endIn) {
 $('#reportrange').daterangepicker({
 }, changeDatePicker);
 */
+
+
+$('#addCalcField').click(function(){
+
+    $clone = $('#exampleCalcField').html();
+    $('.calculatedFields').append( $clone );
+    refreshEvents();
+
+});
+
+refreshEvents = function() {
+
+    $('.calculatedFields .delete').click(function(){
+        var elem = $(this).parent().parent();
+        elem.remove();
+    });
+
+}
+

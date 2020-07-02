@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Helpers\DatabaseConnection;
+use App\Helpers\FieldCalculate;
 use Jenssegers\Mongodb\Eloquent\Model;
 use \MongoDB\BSON\UTCDateTime;
 
@@ -103,7 +104,32 @@ class Collector extends Model
         return $stats;
 
     }
-    public function getFields() {
+    public function getFields($withHidden=false) {
+
+        // Берем то что сохранено в коллекции
+        $result=[];
+        if (isset($this->aggregate)) {
+
+            $result = $this->aggregate;
+
+            if ( !$withHidden )
+                $result = array_filter($result, function($value) {
+                    return $value != 'hide';
+                });
+
+            $result = array_keys($result);
+        }
+
+        if (isset($this->calculated)) {
+
+            $result = array_merge($result, array_keys($this->calculated));
+        }
+
+        if (sizeof($result) > 0)
+            return $result;
+
+
+        // Если не нашли, то достаем из статистики
         $stat = Stat::where('collector_id', $this->id)->orderBy('dt','desc')->limit(1)->first();
         if ($stat == null)
             return [];
@@ -297,15 +323,16 @@ class Collector extends Model
                 ],
                 "dt"    => ['$min' => '$dt'],
             ];
+            $hidden=[];
             foreach($fields as $field) {
 
+                $aggregate = '$avg';
+
                 if (isset($this->aggregate) && isset($this->aggregate[$field])) {
-                    $group[$field] = ['$' . $this->aggregate[$field] => '$'.$field];
-                } else {
-                    $group[$field] = ['$avg' => '$'.$field];
+                    $aggregate = '$' . $this->aggregate[$field];
                 }
 
-
+                $group[$field] = [$aggregate => '$'.$field];
             }
 
             $cursor = Stat::raw()->aggregate([
@@ -335,20 +362,18 @@ class Collector extends Model
             foreach ($cursor as $document) {
                 $item=$document->getArrayCopy();
 
-               // $item['dt'] = $item['_id'];
                 $item['dt'] = $item['dt']->toDateTime()->format($outputFormat);
-/*
-                $dateTime = new \DateTime();
-                $dateTime->setTimestamp($item['dt']);
-                $item['dt'] = $dateTime->format('Y-m-d H');
-*/
                 unset($item['_id']);
-                $result[]=$item;
 
+                $result[]=$item;
             }
 
+            $result = Stat::prepareCalcData($result, $this->calculated);
 
         }
+
+
+
 
            // $this->_stat = Stat::where('collector_id', $this->id)->orderBy('dt', 'desc')->get();
 
@@ -358,7 +383,6 @@ class Collector extends Model
     public function statCount() {
         return Stat::where('collector_id', $this->id)->count();
     }
-
 
 
 }

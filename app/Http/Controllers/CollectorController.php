@@ -85,6 +85,24 @@ class CollectorController extends Controller
     }
 
     /**
+     * Приводим поля к значению Key => value
+     * @param $params
+     * @return mixed
+     */
+    public function prepareCalcFields($params) {
+        if (isset($params['calcFieldName']) && isset($params['calcFieldVal'])) {
+            $params['calculated']=[];
+            foreach($params['calcFieldName'] as $k=>$name) {
+                $params['calculated'][$name] = $params['calcFieldVal'][$k];
+            }
+        }
+        unset($params['calcFieldName']);
+        unset($params['calcFieldVal']);
+
+        return $params;
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -100,6 +118,8 @@ class CollectorController extends Controller
         $params = array_filter($params, function ($value) {
             return $value != '';
         });
+
+        $params = $this->prepareCalcFields($params);
 
         unset($params['_token']);
 
@@ -172,7 +192,12 @@ class CollectorController extends Controller
 
         $params = $request->all();
 
+        $params = $this->prepareCalcFields($params);
+
         $data = Collector::getData($params);
+
+        if (is_array($data))
+            $data = Stat::prepareCalcData($data, $params['calculated']);
 
         if (!is_array($data)) {
             return
@@ -183,7 +208,6 @@ class CollectorController extends Controller
 
         // Если несколько записей, то нужно поле с датой
         if (sizeof($data) > 1) {
-
             $first = reset($data);
             if (!isset($first['dt'])) {
                 return
@@ -192,25 +216,16 @@ class CollectorController extends Controller
                         'problem' => 'You dataset need a dt field or only one row!'
                     ];
             }
-
         }
 
         // Если нет записей
         if (sizeof($data) == 0) {
-
-            $first = reset($data);
-            if (!isset($first['dt'])) {
                 return
                     [   'status' => 'problem',
                         'data' => '',
                         'problem' => 'Result is empty'
                     ];
-            }
-
         }
-
-
-
 
         return [
             'status' => 'ok',
