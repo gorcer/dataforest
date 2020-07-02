@@ -196,7 +196,7 @@ class CollectorController extends Controller
 
         $data = Collector::getData($params);
 
-        if (is_array($data))
+        if (is_array($data) && isset($params['calculated']))
             $data = Stat::prepareCalcData($data, $params['calculated']);
 
         if (!is_array($data)) {

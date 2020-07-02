@@ -18,10 +18,10 @@ class Stat extends Eloquent
 
     public static function prepareCalcData($data, $fields) {
 
-        if (sizeof($fields) == 0 || sizeof($data) == 0) {
+        if (!$fields || sizeof($fields) == 0 || sizeof($data) == 0) {
             return $data;
         }
-        
+
         foreach($data as &$row) {
 
             foreach($fields as $field => $command) {
@@ -31,7 +31,6 @@ class Stat extends Eloquent
                 foreach($row as $comField => $value) {
                     $command = str_replace(["'" . $comField . "'", $comField], $value, $command);
                 }
-
 
                 try {
                     $parser = new FormulaParser($command, 2);

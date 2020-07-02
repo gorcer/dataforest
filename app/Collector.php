@@ -101,6 +101,26 @@ class Collector extends Model
         }
 
 
+        foreach($stats as &$item) {
+            foreach($item as $key => $value) {
+                // все кроме даты делаем числом
+                if ($key !== 'dt')
+                    $value= (float)str_replace(" ", "", $value);
+
+                // Убираем точку из названия столбца
+                if (strpos($key, '.') !== false) {
+
+                    unset($item[$key]);
+
+                    $key = str_replace('.',' ',$key);
+                }
+
+                $item[$key] = $value;
+            }
+        }
+
+
+
         return $stats;
 
     }
@@ -190,18 +210,6 @@ class Collector extends Model
         foreach($stats as $item) {
 
                 foreach($item as $key => &$value) {
-                    // все кроме даты делаем числом
-                    if ($key !== 'dt')
-                        $value= (float)str_replace(" ", "", $value);
-
-                    // Убираем точку из названия столбца
-                    if (strpos($key, '.') !== false) {
-
-                        unset($item[$key]);
-
-                        $key = str_replace('.',' ',$key);
-                        $item[$key] = $value;
-                    }
 
                     // Если 2 значения, то второе называем value
                     if (sizeof($item)<=2 && $key != 'dt' && $key != 'value') {

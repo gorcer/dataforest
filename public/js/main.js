@@ -121,9 +121,15 @@ $('#copy2clipboard').click(function(){
 
 refreshGraph = function() {
     myChart.data.datasets=[];
+
+    console.log($('#selectField').val());
+
     $('#selectField').val().forEach(function(elem){
-        if (dataset[elem])
+
+        if (dataset[elem]) {
             myChart.data.datasets.push(dataset[elem]);
+
+        }
     });
     myChart.update();
     refreshLink();

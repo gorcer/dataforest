@@ -29,16 +29,24 @@ foreach(array_reverse($stat) as $items) {
 
 // Получаем поля
 $fields = $collector->getFields();
+foreach($fields as $k => $field) {
+    $fields[$field] = $field;
+    unset($fields[$k]);
+}
+
+
 
 $hiddenSelect = sizeof($fields) == 1;
 
 $link=route('collector.frame', ['id'=>$collector->id, 'group'=>'%group%', 'type'=> 'diagram'] );
 
-$selectedFields = request()->field;
+$selectedFields = request()->get('field', false);
 
 if (!$selectedFields || sizeof($selectedFields) == 0) {
-$selectedFields =  reset($fields);
+    $selectedFields =  [reset($fields)];
 }
+
+
 
 $style=[];
 
@@ -93,6 +101,7 @@ $style[]=$height;
                         fill: false
                 } ;
             @endforeach
+
 
 
 
