@@ -18,6 +18,10 @@ class Stat extends Eloquent
 
     public static function prepareCalcData($data, $fields) {
 
+        if (sizeof($fields) == 0 || sizeof($data) == 0) {
+            return $data;
+        }
+        
         foreach($data as &$row) {
 
             foreach($fields as $field => $command) {
