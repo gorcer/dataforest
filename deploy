@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#Host doghouse-new
+#     User gorcer
+#     Port 41476
+#     HostName 10.10.10.7
+#     ProxyCommand ssh -W %h:%p -p 41476 gorcer@185.10.45.3
+
+
+if [ $# -eq 0 ]
+    then
+        echo "Error. Please make sure you've indicated correct parameters";
+elif [ $1 == "live" ]
+    then
+        if [[ -z $2 ]]
+            then
+                echo "Running dry-run"
+                rsync --dry-run -az --no-perms --no-owner --no-group --force --delete --progress --exclude-from=rsync_exclude.txt -e "ssh -p41476" ./ gorcer@doghouse.ru:/var/www/doghouse.ru
+        elif [ $2 == "go" ]
+            then
+               # gulp
+                echo "Running actual deploy"
+
+                rsync -zrlPO --no-perms --no-owner --no-group --force --delete --progress --exclude-from=rsync_exclude.txt -e "ssh" ./ doghouse-new:/var/www/datalogger
+
+
+        else
+            echo "Error. Please make sure you've indicated correct parameters";
+        fi
+fi

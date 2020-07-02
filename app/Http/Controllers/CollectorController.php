@@ -124,6 +124,8 @@ class CollectorController extends Controller
         unset($params['_token']);
 
         $collector->update($params);
+        $collector->process();
+
 
         return redirect()->route('collector.show', ['collector'=>$collector]);
 

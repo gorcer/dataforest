@@ -124,12 +124,11 @@ class Collector extends Model
         return $stats;
 
     }
-    public function getFields($withHidden=false) {
+    public function getFields($withHidden=false, $withCalculated=true) {
 
         // Берем то что сохранено в коллекции
         $result=[];
         if (isset($this->aggregate)) {
-
             $result = $this->aggregate;
 
             if ( !$withHidden )
@@ -137,10 +136,11 @@ class Collector extends Model
                     return $value != 'hide';
                 });
 
+
             $result = array_keys($result);
         }
 
-        if (isset($this->calculated)) {
+        if ($withCalculated && isset($this->calculated)) {
 
             $result = array_merge($result, array_keys($this->calculated));
         }
@@ -207,6 +207,11 @@ class Collector extends Model
         if (!is_array($stats))
             echo $stats;
 
+        if (!isset($this->aggregate)) {
+            $this->aggregate=[];
+        }
+        $newAgregate=[];
+
         foreach($stats as $item) {
 
                 foreach($item as $key => &$value) {
@@ -215,6 +220,11 @@ class Collector extends Model
                     if (sizeof($item)<=2 && $key != 'dt' && $key != 'value') {
                         unset($item[$key]);
                         $item['value'] = $value;
+                    }
+
+
+                    if ($key != 'dt') {
+                        $newAgregate[$key] = 'avg';
                     }
                 }
 
@@ -255,6 +265,7 @@ class Collector extends Model
                 ->update($item, ['upsert' => true]);
          }
 
+        $this->aggregate= $newAgregate;
         $this->last_check = new UTCDateTime();
         $this->save();
 
@@ -322,7 +333,8 @@ class Collector extends Model
 
         if ($this->_stat == null) {
 
-            $fields = $this->getFields();
+            $fields = $this->getFields(true);
+
             if (sizeof($fields) == 0)
                 return [];
 
@@ -336,7 +348,7 @@ class Collector extends Model
 
                 $aggregate = '$avg';
 
-                if (isset($this->aggregate) && isset($this->aggregate[$field])) {
+                if (isset($this->aggregate) && isset($this->aggregate[$field]) && $this->aggregate[$field] != 'hide') {
                     $aggregate = '$' . $this->aggregate[$field];
                 }
 
@@ -378,14 +390,37 @@ class Collector extends Model
 
             $result = Stat::prepareCalcData($result, $this->calculated);
 
+            if (is_string($result)) {
+                die($result);
+            }
+
+            $result = $this->hideHiden($result);
+
         }
 
 
 
-
-           // $this->_stat = Stat::where('collector_id', $this->id)->orderBy('dt', 'desc')->get();
-
         return $result;
+    }
+
+
+    public function hideHiden($data) {
+
+        if (!isset($this->aggregate))
+            return $data;
+
+        foreach($this->aggregate as $agField => $type) {
+
+            if ($type != 'hide')
+                continue;
+
+            foreach($data as $i=>$item)
+                foreach($item as $field => $value) {
+                    unset($data[$i][$field]);
+                }
+        }
+
+        return $data;
     }
 
     public function statCount() {

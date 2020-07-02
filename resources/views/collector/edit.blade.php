@@ -4,7 +4,7 @@
 
 @php
 
-$fields = $collector->getFields(true);
+$fields = $collector->getFields(true, false);
 
 @endphp
 
