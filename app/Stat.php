@@ -36,12 +36,17 @@ class Stat extends Eloquent
                     $parser = new FormulaParser($command, 2);
                     $parser->setVariables($data);
                     $result = $parser->getResult(); // [0 => 'done', 1 => 16.38]
+
                 } catch (\Exception $e) {
                     $result = false;
                 }
 
                 if ($result[0] == 'done') {
                     $row[$field] = $result[1];
+
+                    if (is_nan($row[$field]) || is_infinite( $row[$field]) ) {
+                        $row[$field]=0;
+                    }
                 } else {
                     return 'Error in field ' . $field .': ' . $result[1];
                 }

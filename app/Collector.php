@@ -210,7 +210,7 @@ class Collector extends Model
         if (!isset($this->aggregate)) {
             $this->aggregate=[];
         }
-        $newAgregate=[];
+        $newAgregate=$this->aggregate;
 
         foreach($stats as $item) {
 
@@ -220,10 +220,10 @@ class Collector extends Model
                     if (sizeof($item)<=2 && $key != 'dt' && $key != 'value') {
                         unset($item[$key]);
                         $item['value'] = $value;
+                        $key='value';
                     }
 
-
-                    if ($key != 'dt') {
+                    if ($key != 'dt' && !isset($newAgregate[$key])) {
                         $newAgregate[$key] = 'avg';
                     }
                 }
@@ -310,7 +310,7 @@ class Collector extends Model
                         $end = date('Y-m-d 00:00:00', strtotime("+1 day"));
                         break;
             case 'this_month':
-                        $start = date('Y-m-01 00:00:00', strtotime("-30 day"));
+                        $start = date('Y-m-01 00:00:00');
                         $end = date('Y-m-d 00:00:00', strtotime("+1 day"));
                         break;
             case 'last_month':
@@ -343,10 +343,10 @@ class Collector extends Model
                 ],
                 "dt"    => ['$min' => '$dt'],
             ];
-            $hidden=[];
+
             foreach($fields as $field) {
 
-                $aggregate = '$avg';
+                $aggregate = '$sum';
 
                 if (isset($this->aggregate) && isset($this->aggregate[$field]) && $this->aggregate[$field] != 'hide') {
                     $aggregate = '$' . $this->aggregate[$field];
@@ -354,6 +354,7 @@ class Collector extends Model
 
                 $group[$field] = [$aggregate => '$'.$field];
             }
+
 
             $cursor = Stat::raw()->aggregate([
                 [
@@ -416,7 +417,8 @@ class Collector extends Model
 
             foreach($data as $i=>$item)
                 foreach($item as $field => $value) {
-                    unset($data[$i][$field]);
+                    if ($agField == $field)
+                        unset($data[$i][$field]);
                 }
         }
 

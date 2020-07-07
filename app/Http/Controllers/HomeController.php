@@ -7,6 +7,7 @@ use App\Helpers\DatabaseConnection;
 use App\Jobs\ProcessTask;
 use App\Stat;
 use App\User;
+use FormulaParser\FormulaParser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,5 +35,13 @@ class HomeController extends Controller
 
 
         return view('home', ['collectors' => $collectors]);
+    }
+
+
+    public function test() {
+        $parser = new FormulaParser('1/0', 2);
+        $result = $parser->getResult(); // [0 => 'done', 1 => 16.38]
+
+        dd($result);
     }
 }
