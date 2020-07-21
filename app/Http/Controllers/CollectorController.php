@@ -251,6 +251,10 @@ class CollectorController extends Controller
             case 'diagram':
                             return view('stat.chart', ['collector' => $collector, 'stat' => $stat]);
                             break;
+            case 'table':
+                            return view('stat.table', ['collector' => $collector, 'stat' => $stat]);
+                            break;
+
         }
     }
 

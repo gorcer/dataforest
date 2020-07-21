@@ -37,7 +37,7 @@
                     $lastValue = reset($stat);
                     unset($lastValue['dt']);
 
-                    $link=route('collector.frame', ['id'=>$mainCollector->id, 'group'=>'by_days', 'type'=> 'diagram'] );
+
 
                 @endphp
 
@@ -45,8 +45,8 @@
                         <div class="col-6">
                             {!!Form::select('type', '',
                             ['diagram' => 'diagram',
-                            'JSON' => 'json',
                             'table' => 'data table',
+                            'JSON' => 'json',
                             'value' => 'last value',
                             ],'diagram'
                             ) !!}
@@ -57,19 +57,25 @@
 
                   <div class="tab-content">
                       <div class="tab-pane active" id='diagram'>
-                        <iframe class="col-12" height="500px" src="{{$link}}?height=400px&cl=1&withTools=1"></iframe>
+                        <iframe class="col-12" height="600px" src="{{ route('collector.frame', ['id'=>$mainCollector->id, 'group'=>'by_days', 'type'=> 'diagram'] ) }}?height=400px&cl=1&withTools=1"></iframe>
                       </div>
 
                       <div class="tab-pane" id="value">
+                          @php
+                            $lastValue = reset($stat);
+                          @endphp
+
                           @if($lastValue)
                               @if (sizeof($lastValue)>1)
                                 @include('table', ['data' => [ $lastValue ]])
                               @else
-                                <h1>{{$lastValue['value']}}</h1>
+                                 <h1>{{$lastValue['value']}}</h1>
                               @endif
                           @else
-                            <h1>No data</h1>
+                              <h1>No data</h1>
                           @endif
+
+
                       </div>
 
 
@@ -80,11 +86,9 @@
                       </div>
 
                       <div class="tab-pane  overflow-auto resultTable" id='table'>
-                            @if($stat)
-                                @include('table', ['data' => $stat])
-                            @else
-                                No data
-                            @endif
+
+                          <iframe class="col-12" height="600px" src="{{ route('collector.frame', ['id'=>$mainCollector->id, 'group'=>'by_days', 'type'=> 'table'] ) }}?height=400px&cl=1&withTools=1"></iframe>
+
                       </div>
                   </div>
 
