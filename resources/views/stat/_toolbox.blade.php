@@ -53,7 +53,8 @@ $link=route('collector.frame', ['id'=>$collector->id, 'group'=>'%group%', 'type'
         '30_days' => 'Last 30 Days',
         'this_month' => 'This Month',
         'last_month' => 'Last Month',
-        'this_year' => 'This Year'
+        'this_year' => 'This Year',
+        'last_year' => 'Last Year'
         ], (request()->period?request()->period:'7_days')
         )->id('period') !!}
 

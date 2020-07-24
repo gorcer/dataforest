@@ -113,6 +113,8 @@ class Collector extends Model
                     unset($item[$key]);
 
                     $key = str_replace('.',' ',$key);
+                    $key = str_replace('  ',' ',$key);
+                    $key = trim($key);
                 }
 
                 $item[$key] = $value;
@@ -321,6 +323,10 @@ class Collector extends Model
                         $start = date('Y-01-01 00:00:00');
                         $end = date('Y-m-d 00:00:00', strtotime("+1 day"));
                         break;
+            case 'last_year':
+                        $start = date('Y-01-01 00:00:00', strtotime("-1 year"));
+                        $end = date('Y-01-01 00:00:00');
+                        break;
 
         }
 
@@ -333,7 +339,7 @@ class Collector extends Model
 
         if ($this->_stat == null) {
 
-            $fields = $this->getFields(true);
+            $fields = $this->getFields(true, false);
 
             if (sizeof($fields) == 0)
                 return [];
