@@ -272,8 +272,15 @@ class CollectorController extends Controller
         ])->get();
 
         foreach($collectors as $collector) {
-            $collector->process();
-            echo date('Y-m-d H:i:s') . ' - ProcessAll ' . $collector->name . PHP_EOL;
+            echo date('Y-m-d H:i:s') . ' - ProcessAll ' . $collector->name;
+            try {
+                $collector->process();
+            } catch (\Exception $e) {
+             echo ' error ' . $e->getMessage() . PHP_EOL;
+             continue;
+            }
+
+            echo 'ok' . PHP_EOL;
         }
 
     }

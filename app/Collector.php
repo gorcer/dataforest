@@ -203,11 +203,14 @@ class Collector extends Model
 
         $this->migrate();
 
+
         // Получаем данные из вне
         $stats = self::getData($this);
 
-        if (!is_array($stats))
+        if (!is_array($stats)) {
             echo $stats;
+            return false;
+        }
 
         if (!isset($this->aggregate)) {
             $this->aggregate=[];
