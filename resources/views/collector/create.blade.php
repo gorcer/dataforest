@@ -28,8 +28,8 @@
 
     {!!Form::select('type', 'Collector type',
         [0 => 'Change collector type',
-        'http' => 'Запрос к сайту',
-        'sql' => 'SQL-запрос']
+        'http' => 'From website',
+        'sql' => 'SQL-query']
     ) !!}
 
 

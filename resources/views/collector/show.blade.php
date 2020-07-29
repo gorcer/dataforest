@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="justify-content-center row">
-        <div class="col-md-2 d-flex flex-column sidebar">
+        <div class="col-md-2 d-flex flex-column sidebar itemList">
             @foreach($allCollectors as $collector)
 
                         <a class="pt-2" href="{{route('collector.show', ['collector' => $collector])}}">
@@ -36,9 +36,6 @@
                     $stat = $mainCollector->getStat();
                     $lastValue = reset($stat);
                     unset($lastValue['dt']);
-
-
-
                 @endphp
 
                     <div class="row">
@@ -61,31 +58,19 @@
                       </div>
 
                       <div class="tab-pane" id="value">
-                          @php
-                            $lastValue = reset($stat);
-                          @endphp
 
-                          @if($lastValue)
-                              @if (sizeof($lastValue)>1)
-                                @include('table', ['data' => [ $lastValue ]])
-                              @else
-                                 <h1>{{$lastValue['value']}}</h1>
-                              @endif
-                          @else
-                              <h1>No data</h1>
-                          @endif
-
+                          <iframe class="col-12" height="600px" src="{{ route('collector.frame', ['id'=>$mainCollector->id, 'group'=>'by_days', 'type'=> 'lastValue'] ) }}?height=400px&cl=1&withTools=1"></iframe>
 
                       </div>
 
 
-                      <div class="tab-pane  overflow-auto resultTable" id='JSON'>
-                          <pre>
-                            {!!json_encode($stat, JSON_PRETTY_PRINT)!!}
-                          </pre>
+                      <div class="tab-pane resultTable" id='JSON'>
+
+                          <iframe class="col-12" height="600px" src="{{ route('collector.frame', ['id'=>$mainCollector->id, 'group'=>'by_days', 'type'=> 'json'] ) }}?height=400px&cl=1&withTools=1"></iframe>
+
                       </div>
 
-                      <div class="tab-pane  overflow-auto resultTable" id='table'>
+                      <div class="tab-pane  resultTable" id='table'>
 
                           <iframe class="col-12" height="600px" src="{{ route('collector.frame', ['id'=>$mainCollector->id, 'group'=>'by_days', 'type'=> 'table'] ) }}?height=400px&cl=1&withTools=1"></iframe>
 

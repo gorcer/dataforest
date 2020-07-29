@@ -37,7 +37,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Отслеживание финансовых показателей</h5>
                             <p class="card-text">Мониторинг изменения стоимости акций и оповещение при резких скачках.</p>
-                            <a href="#" class="btn btn-primary">Узнать больше</a>
+
                         </div>
                     </div>
 
@@ -48,7 +48,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Умный дом</h5>
                             <p class="card-text">Контроль показателей умного дома, оповещение о критическом изменении температуры.</p>
-                            <a href="#" class="btn btn-primary">Узнать больше</a>
+
                         </div>
                     </div>
 
@@ -59,7 +59,7 @@
                         <div class="card-body">
                             <h5 class="card-title">KPI процессов</h5>
                             <p class="card-text">Отслеживание показателей бизнес-процессов. Контроль работы сотрудников и отделов.</p>
-                            <a href="#" class="btn btn-primary">Узнать больше</a>
+
                         </div>
                     </div>
 
@@ -70,7 +70,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Контроль цен</h5>
                             <p class="card-text">Мониторинг цен на товары, услуги, недвижимость, автомобили в онлайн магазинах и на досках объявлений.</p>
-                            <a href="#" class="btn btn-primary">Узнать больше</a>
+
                         </div>
                     </div>
 
@@ -80,19 +80,24 @@
 
             </div>
 
-            <div class="mt-5 col-md-12 mb-5">
-                <h1>Как это выглядит</h1>
-                <img src="/img/screen.png" class="img-fluid"/>
+            <div class="mt-5 col-md-12 mb-5 text-center">
+                <h1>Разберем пример</h1>
+                Допустим вы хотите отслеживать изменение стоимости жилья в своем районе.<br/>
+                В этой статье мы разберем как создается сборщик, как он настраивается и как из него получать данные.<br/>
+                <a href="/howto" class="btn btn-primary mt-3">Узнать больше</a>
+
             </div>
 
             <hr class="mt-5 mb-5"/>
 
-            <div class="container mt-5">
-                <div class="row justify-content-center">
-                    <div class="col-md-4">
-                        <a href="{{ route('register') }}" type="button" class="btn btn-lg btn-success">Зарегистрироваться и попробовать бесплатно</a>
+            <div class="mt-5 col-md-12 mb-5 text-center">
+                    <h1>Хотите попробовать?</h1>
+                    <div class="d-block">
+                        Сейчас у вас есть отличный шанс попробовать все бесплатно, со следующего месяца подписка станет платной!
                     </div>
-                </div>
+
+                    <a href="{{ route('register') }}" type="button" class="mt-3 btn btn-lg btn-success">Зарегистрироваться и попробовать бесплатно</a>
+
             </div>
 
 

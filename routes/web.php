@@ -29,3 +29,7 @@ Route::get('/test', 'HomeController@test')->name('home');
 
 Route::any('/collector/{id}/delete', 'CollectorController@delete')->name('collector.delete');
 Route::resource('collector', 'CollectorController')->middleware('auth');
+
+Route::get('/howto', function () {
+    return view('static/howto');
+});

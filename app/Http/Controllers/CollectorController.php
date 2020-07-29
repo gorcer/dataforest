@@ -254,6 +254,25 @@ class CollectorController extends Controller
             case 'table':
                             return view('stat.table', ['collector' => $collector, 'stat' => $stat]);
                             break;
+            case 'json':
+                            if (request()->withTools)
+                                return view('stat.json', ['collector' => $collector, 'stat' => $stat]);
+                            else
+                                echo json_encode($stat, JSON_PRETTY_PRINT);
+
+                            break;
+            case 'lastValue':
+                            $lastValue = reset($stat);
+                            if ($lastValue)
+                                unset($lastValue['dt']);
+
+                            if (request()->withTools || ($lastValue && sizeof($lastValue)>1))
+                                return view('stat.lastValue', ['collector' => $collector, 'lastValue' => $lastValue]);
+                            elseif($lastValue)
+                                echo $lastValue['value'];
+
+                            break;
+
 
         }
     }

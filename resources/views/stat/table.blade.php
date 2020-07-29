@@ -4,7 +4,8 @@
 @section('content')
 
     @if (request()->withTools)
-    @include('stat._toolbox')
+        @include('stat._toolbox')
+    @endif
 
     @if($stat)
         @include('table', ['data' => $stat])

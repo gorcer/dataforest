@@ -14,7 +14,7 @@
             <div class="card">
 
                 <div class="card-header">Your collectors</div>
-                    <div class="card-body">
+                    <div class="card-body itemList">
                         @if (sizeof($collectors) > 0)
 
 
