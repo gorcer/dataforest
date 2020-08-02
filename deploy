@@ -21,8 +21,8 @@ elif [ $1 == "live" ]
                # gulp
                 echo "Running actual deploy"
 
-                rsync -zrlPO --no-perms --no-owner --no-group --force --delete --progress --exclude-from=rsync_exclude.txt -e "ssh" ./ doghouse-new:/var/www/datalogger
-
+               # rsync -az --omit-dir-times --no-perms --no-owner --no-group --force --delete --progress --exclude-from=rsync_exclude.txt -e "ssh" ./ doghouse-new:/var/www/datalogger
+                rsync -az --omit-dir-times --no-perms --no-owner --no-group --force --delete --progress --exclude-from=rsync_exclude.txt -e "ssh" ./ root@df.gorcer.com:/var/www/datalogger
 
         else
             echo "Error. Please make sure you've indicated correct parameters";

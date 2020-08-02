@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    if (request()->getHttpHost() == 'df.gorcer.com')
+        return view('welcome');
 });
 
 Auth::routes();

@@ -31,7 +31,8 @@ class HomeController extends Controller
     public function index()
     {
 
-        $collectors = Collector::where('user_id',Auth::id())->get();
+        $user_id = Auth::id();
+        $collectors = Collector::where('user_id',$user_id)->get();
 
 
         return view('home', ['collectors' => $collectors]);

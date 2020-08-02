@@ -37,8 +37,8 @@ $fields = $collector->getFields(true, false);
 
         @case('http')
             <div id="http">
-                {!!Form::text('http_url', 'Адрес страницы', $collector->http_url)!!}
-                {!!Form::text('http_value', 'Текущее значение на странице')!!}
+                {!!Form::text('http_url', 'Page URL', $collector->http_url)!!}
+                {!!Form::text('http_value', 'Current value on a page')!!}
 
                 <div class="row">
                     <div class="col-md-12">
@@ -66,7 +66,12 @@ $fields = $collector->getFields(true, false);
 
         @case('sql')
             <div id="sql">
-                {!!Form::text('db_connection', 'Database',  $collector->db_connection)->placeholder('mysql://user:password@server:port/database')!!}
+                {!!Form::text('db_connection', 'Database <a data-trigger="hover" data-html="true" data-toggle="popover" title="How to ..." data-content="
+             1) Create new user in your mysql for dataforest <br/>
+             2) Grant select permission to your data tables <br/>
+             3) Allow connections from ip 89.223.88.238">
+                    ( ? )
+                </a>',  $collector->db_connection)->placeholder('mysql://user:password@server:port/database')!!}
                 {!!Form::textarea('db_query', 'Query', $collector->db_query)->attrs(['rows' => 10, 'cols' => 30])!!}
             </div>
         @break

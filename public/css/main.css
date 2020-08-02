@@ -1,5 +1,5 @@
 body {
-    font-size: 22px;
+    font-size: 16px;
 }
 
 h1 {
@@ -35,11 +35,16 @@ iframe {
     line-height: 18px;
 }
 
-.container img {
+.staticPage img {
     max-width: 80%;
     border: 1px solid #666;
 }
 
+.staticPage {
+    font-size: 20px;
+}
+
 .itemList {
     font-size: 16px;
+    word-wrap: break-word;
 }

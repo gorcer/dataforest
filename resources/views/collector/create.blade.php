@@ -67,7 +67,12 @@
 
         <div class="tab-pane" id="sql">
 
-            {!!Form::text('db_connection', 'Database')->placeholder('mysql://user:password@server:port/database')!!}
+            {!!Form::text('db_connection', 'Database <a data-trigger="hover" data-html="true" data-toggle="popover" title="How to ..." data-content="
+             1) Create new user in your mysql for dataforest <br/>
+             2) Grant select permission to your data tables <br/>
+             3) Allow connections from ip 89.223.88.238">
+                ( ? )
+            </a>')->placeholder('mysql://user:password@server:port/database')!!}
             {!!Form::textarea('db_query', 'Query')->attrs(['rows' => 10, 'cols' => 30])!!}
 
         </div>
