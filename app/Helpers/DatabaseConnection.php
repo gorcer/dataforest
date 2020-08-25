@@ -14,7 +14,9 @@ class DatabaseConnection
             'host' => $params['host'],
             'database' => $params['database'],
             'username' => $params['username'],
-            'password' => $params['password']
+            'password' => $params['password'],
+            'charset'   => 'utf8mb4',
+            'collation' => 'utf8mb4_general_ci'
         ]]);
 
     return DB::connection('onthefly');

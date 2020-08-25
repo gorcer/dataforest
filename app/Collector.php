@@ -43,13 +43,13 @@ class Collector extends Model
                         'host' => $connection['host'] . ':' . $connection['port'],
                         'database' => substr($connection['path'], 1),
                         'username' => $connection['user'],
-                        'password' =>  $connection['pass'],
+                        'password' =>  $connection['pass']
                     ];
-
 
                         try {
                             $connection = DatabaseConnection::setConnection($connection);
                             $stats = $connection->select($params['db_query']);
+                            
                         } catch(\Illuminate\Database\QueryException $e) {
                             return $e->getMessage();
                         }

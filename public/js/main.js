@@ -204,4 +204,5 @@ refreshEvents = function() {
 
 }
 
+refreshEvents();
 $('[data-toggle="popover"]').popover();
