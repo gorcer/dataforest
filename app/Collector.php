@@ -49,7 +49,7 @@ class Collector extends Model
                         try {
                             $connection = DatabaseConnection::setConnection($connection);
                             $stats = $connection->select($params['db_query']);
-                            
+
                         } catch(\Illuminate\Database\QueryException $e) {
                             return $e->getMessage();
                         }

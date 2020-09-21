@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    if (request()->getHttpHost() == 'df.gorcer.com')
+    if (request()->getHttpHost() == 'debin.ru')
         return view('welcome');
 });
 
