@@ -26,10 +26,12 @@ class Stat extends Eloquent
 
             foreach($fields as $field => $command) {
 
+
                 $command = str_replace('"',"'", $command);
                 $command = str_replace('.'," ", $command);
                 $command = str_replace('  '," ", $command);
-//dd($row, $command);
+
+
                 foreach($row as $comField => $value) {
                     $command = str_replace(["'" . $comField . "'", $comField], $value, $command);
                 }
@@ -50,7 +52,8 @@ class Stat extends Eloquent
                         $row[$field]=0;
                     }
                 } else {
-                    return 'Error in field ' . $field .': ' . $result[1];
+                    //return 'Error in field ' . $field .': ' . $result[1];
+                    $row[$field]=0;
                 }
 
             }

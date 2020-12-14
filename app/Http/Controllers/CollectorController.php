@@ -67,6 +67,8 @@ class CollectorController extends Controller
         $collector = Collector::find($id);
         $allCollectors = Collector::where('user_id', Auth::id())->get();
 
+        $collector->getStat();
+
         return view('collector.show', ['mainCollector' => $collector, 'allCollectors' => $allCollectors]);
     }
 
@@ -93,6 +95,8 @@ class CollectorController extends Controller
         if (isset($params['calcFieldName']) && isset($params['calcFieldVal'])) {
             $params['calculated']=[];
             foreach($params['calcFieldName'] as $k=>$name) {
+                if ($name == '')
+                    continue;
                 $params['calculated'][$name] = $params['calcFieldVal'][$k];
             }
         }

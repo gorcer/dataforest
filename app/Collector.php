@@ -400,6 +400,9 @@ class Collector extends Model
 
             $result = Stat::prepareCalcData($result, $this->calculated);
 
+
+
+
             if (is_string($result)) {
                 die($result);
             }

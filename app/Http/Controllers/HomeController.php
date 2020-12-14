@@ -40,9 +40,6 @@ class HomeController extends Controller
 
 
     public function test() {
-        $parser = new FormulaParser('1/0', 2);
-        $result = $parser->getResult(); // [0 => 'done', 1 => 16.38]
-
-        dd($result);
+        dd( Stat::where('collector_id', '5ed462ed2f5d0a10f909d0a4')->count() );
     }
 }

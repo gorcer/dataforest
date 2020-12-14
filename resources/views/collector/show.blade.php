@@ -34,6 +34,7 @@
 
                 @php
                     $stat = $mainCollector->getStat();
+
                     $lastValue = reset($stat);
                     unset($lastValue['dt']);
                 @endphp
