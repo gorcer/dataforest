@@ -270,6 +270,12 @@ class Collector extends Model
                 ->update($item, ['upsert' => true]);
          }
 
+        // Удаляем те поля, которых нет в последней строке
+        foreach($newAgregate as $key => $value) {
+            if (!isset($item[$key]))
+                unset($newAgregate[$key]);
+        }
+
         $this->aggregate= $newAgregate;
         $this->last_check = new UTCDateTime();
         $this->save();
