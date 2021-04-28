@@ -51,7 +51,8 @@ class CollectorController extends Controller
         $params['user_id']=Auth::id();
         $collector = Collector::create($params);
 
-        $collector->process();
+        if ($collector->type != 'api' )
+            $collector->process();
 
         return redirect()->route('collector.show', ['collector'=>$collector]);
     }
@@ -116,6 +117,7 @@ class CollectorController extends Controller
     public function update(Request $request, $id)
     {
         $collector = Collector::find($id);
+
 
         $params = $request->all();
 
@@ -240,7 +242,14 @@ class CollectorController extends Controller
     }
 
     public function process($id) {
+
+
         $collector = Collector::findOrFail($id);
+
+        if ($collector->type == 'api')
+            return redirect()->route('collector.show', ['collector'=>$collector]);
+
+
         $collector->process();
 
         return redirect()->route('collector.show',['collector' => $collector]);
@@ -295,6 +304,10 @@ class CollectorController extends Controller
         ])->get();
 
         foreach($collectors as $collector) {
+
+            if ($collector->type == 'api')
+                continue;
+
             echo date('Y-m-d H:i:s') . ' - ProcessAll ' . $collector->name;
             try {
                 $collector->process();
@@ -305,6 +318,12 @@ class CollectorController extends Controller
 
             echo 'ok' . PHP_EOL;
         }
+    }
 
+    public function putData(Collector $collector) {
+
+        if ($collector->type == 'api') {
+            $collector->process();
+        }
     }
 }

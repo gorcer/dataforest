@@ -29,7 +29,8 @@
     {!!Form::select('type', 'Collector type',
         [0 => 'Change collector type',
         'http' => 'From website',
-        'sql' => 'SQL-query']
+        'sql' => 'SQL-query',
+        'api' => 'API']
     ) !!}
 
 
@@ -77,6 +78,12 @@
 
         </div>
 
+        <div class="tab-pane" id="api">
+
+            Go edit collector after create and get the link for update!
+
+        </div>
+
         {!!Form::button("Try it")->color("primary")->attrs(['id'=>'tryIt'])!!}
 
         <div class="d-none" id="tryIt-loading">
@@ -98,9 +105,9 @@
 
             </div>
 
-            {!!Form::submit("Save")->color("success")->attrs(['id'=>'save', 'class' => 'd-none'])!!}
-
         </div>
+
+        {!!Form::submit("Save")->color("success")->attrs(['id'=>'save', 'class' => 'd-none'])!!}
     </div>
 
 </div>

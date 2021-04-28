@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    if (request()->getHttpHost() == 'debin.ru')
+    if (request()->getHttpHost() == 'debin.ru' || strpos(request()->getHttpHost(), 'localhost') !== false)
         return view('welcome');
 });
 
@@ -24,6 +24,7 @@ Auth::routes();
 Route::any('/collector/test', 'CollectorController@test')->name('collector.test');
 Route::any('/collector/findXPath', 'CollectorController@findXPath')->name('collector.findXPath');
 Route::any('/collector/process/{id}', 'CollectorController@process')->name('collector.process');
+Route::any('/collector/putData/{collector}', 'CollectorController@putData')->name('collector.putData');
 Route::any('/f/{id}/{type}/{group}', 'CollectorController@frame')->name('collector.frame');
 
 Route::get('/home', 'HomeController@index')->name('home');

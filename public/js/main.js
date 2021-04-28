@@ -45,11 +45,21 @@ $('#inp-type').on('change', function (e) {
     $('.tab-content .tab-pane').hide();
     $('.tab-content .tab-pane#'+$(this).val()).show();
 
-     if ($(this).val() == 'http' && $('#http_xpath').val() == '') {
-        $('#tryIt').prop('disabled', true);
-     } else {
-         $('#tryIt').prop('disabled', false);
-     }
+    if ($(this).val() == 'api') {
+        $('#tryIt').hide();
+        $('#collectorForm #save').removeClass('d-none');
+
+    } else {
+        $('#tryIt').show();
+        $('#collectorForm #save').addClass('d-none');
+
+         if ($(this).val() == 'http' && $('#http_xpath').val() == '') {
+            $('#tryIt').prop('disabled', true);
+         } else {
+             $('#tryIt').prop('disabled', false);
+         }
+
+    }
 });
 
 $('#findXPath').click(function(e) {
@@ -71,12 +81,10 @@ $('#findXPath').click(function(e) {
                 $('#http_xpath').val(data.value);
                 $('#tryIt').prop('disabled', false);
                 $('#http_xpath').removeClass('alert alert-danger');
-
             } else {
                 $('#tryIt').prop('disabled', true);
                 $('#http_xpath').val(data.value);
                 $('#http_xpath').addClass('alert alert-danger');
-
             }
         }
     }).always(function( data ){

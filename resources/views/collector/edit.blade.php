@@ -76,6 +76,16 @@ $fields = $collector->getFields(true, false);
             </div>
         @break
 
+        @case('api')
+            <div id="api" class="mb-5">
+                Send data to url:
+                {{route('collector.putData',['collector'=>$collector])}}<br/>
+
+                Format: JSON {label:value, ...}
+
+            </div>
+        @break
+
     @endswitch
 
     <div class="row mb-5">

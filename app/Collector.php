@@ -98,6 +98,12 @@ class Collector extends Model
                                 }
 
                          break;
+            case 'api':
+
+                        if (request()->data) {
+                            $stats = [json_decode(request()->data, true)];
+                        }
+                        break;
         }
 
 
@@ -335,6 +341,10 @@ class Collector extends Model
             case 'last_year':
                         $start = date('Y-01-01 00:00:00', strtotime("-1 year"));
                         $end = date('Y-01-01 00:00:00');
+                        break;
+            case 'all_time':
+                        $start = date('1970-01-01 00:00:00');
+                        $end = date('Y-m-d 23:59:59');
                         break;
 
         }
