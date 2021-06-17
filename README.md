@@ -14,7 +14,7 @@
 
 Результат может быть использован в АПИ других сервисов, публичная ссылка предоставляется.
 
-<img src='/img/sample.png' width='400px'/>
+<img src='https://debin.ru/img/sample.png' width='400px'/>
 
 
 Попробовать вживую можно тут https://debin.ru
