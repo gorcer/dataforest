@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-    if (request()->getHttpHost() == 'debin.ru' || strpos(request()->getHttpHost(), 'localhost') !== false)
         return view('welcome');
 });
 

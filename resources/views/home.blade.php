@@ -17,9 +17,6 @@
                     <div class="card-body itemList">
                         @if (sizeof($collectors) > 0)
 
-
-
-
                                 <div class="row">
                                     @foreach($collectors as $collector)
                                         <a class="col-md-3" href="{{route('collector.show', ['collector' => $collector])}}">

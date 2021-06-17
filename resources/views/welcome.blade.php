@@ -68,13 +68,12 @@
                             <img class="" src="img/sale.png" alt="KPI процессов">
                         </div>
                         <div class="card-body">
+
                             <h5 class="card-title">Контроль цен</h5>
                             <p class="card-text">Мониторинг цен на товары, услуги, недвижимость, автомобили в онлайн магазинах и на досках объявлений.</p>
 
                         </div>
                     </div>
-
-
 
                 </div>
 
@@ -90,17 +89,6 @@
 
             </div>
 
-            <hr class="mt-5 mb-5"/>
-
-            <div class="mt-5 col-md-12 mb-5 text-center">
-                    <h1>Хотите попробовать?</h1>
-                    <div class="d-block">
-                        Сейчас у вас есть отличный шанс попробовать все бесплатно так как со следующего месяца подписка станет платной!
-                    </div>
-
-                    <a href="{{ route('register') }}" type="button" class="mt-3 btn btn-lg btn-success">Зарегистрироваться и попробовать бесплатно</a>
-
-            </div>
 
 
     </div>

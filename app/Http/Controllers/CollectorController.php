@@ -285,8 +285,6 @@ class CollectorController extends Controller
                                 echo $lastValue['value'];
 
                             break;
-
-
         }
     }
 

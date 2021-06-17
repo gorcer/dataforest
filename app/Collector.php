@@ -98,10 +98,16 @@ class Collector extends Model
                                 }
 
                          break;
-            case 'api':
 
+            // not worked yet
+            case 'api':
+                $val = json_decode(file_get_contents("php://input"), true);
+print_r($val);
+die();
                         if (request()->data) {
                             $stats = [json_decode(request()->data, true)];
+                        } else {
+                            $stats=[];
                         }
                         break;
         }
@@ -208,7 +214,6 @@ class Collector extends Model
     public function process() {
 
         $this->migrate();
-
 
         // Получаем данные из вне
         $stats = self::getData($this);
