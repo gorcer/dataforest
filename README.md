@@ -44,6 +44,7 @@ The result can be used in the API of other services, a public link is provided.
 - склонировать
 - создать базу данных
 - заполнить настройки подключения в .env
+- composer update
 - php artisan key:generate
 - php artisan migrate
 
